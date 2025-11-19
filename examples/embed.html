@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rumor Webchat Widget Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #e0f2fe, #f8fafc 45%);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Rumor Webchat Widget</h1>
+      <p>
+        This page demonstrates how to embed the widget via a script tag. Build the project first
+        (<code>npm run build</code>) so the <code>dist</code> assets referenced below exist.
+      </p>
+    </main>
+
+    <script src="../dist/rumor-webchat-widget.umd.js"></script>
+    <rumor-webchat-widget api-url="http://127.0.0.1:8000/api/chat" title="Rumor Concierge"></rumor-webchat-widget>
+  </body>
+</html>

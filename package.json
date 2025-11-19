@@ -1,0 +1,30 @@
+{
+  "name": "rumor-webchat-widget",
+  "version": "0.1.0",
+  "description": "Embeddable React-based webchat widget for Rumor.",
+  "type": "module",
+  "main": "dist/rumor-webchat-widget.umd.js",
+  "module": "dist/rumor-webchat-widget.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.2",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
