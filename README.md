@@ -2,7 +2,9 @@
 
 Embeddable React + TypeScript chat widget packaged as a custom element with Shadow DOM
 isolation. The widget can be dropped into any third-party site via a `<script>` tag without
-bleeding styles or requiring the host application to run React.
+bleeding styles or requiring the host application to run React. By default the widget talks to the
+development API at `http://127.0.0.1:8000/api/chat`, but you can override the endpoint via the
+`api-url` attribute or prop.
 
 ## Features
 
@@ -32,7 +34,7 @@ To see the widget in action inside a plain HTML page:
 
 ```html
 <script src="https://cdn.example.com/rumor-webchat-widget.umd.js" defer></script>
-<rumor-webchat-widget api-url="https://api.rumor.io/chat" title="Rumor Concierge"></rumor-webchat-widget>
+<rumor-webchat-widget api-url="https://api.rumor.io/api/chat" title="Rumor Concierge"></rumor-webchat-widget>
 ```
 
 ### ES module (modern build pipelines)
@@ -61,12 +63,12 @@ window.RumorWebchatWidget.define({
 
 ## Attributes & Props
 
-| Attribute        | Type      | Description                                                  |
-| ---------------- | --------- | ------------------------------------------------------------ |
-| `api-url`        | string    | Backend endpoint the widget will eventually call.            |
-| `title`          | string    | Header title text.                                           |
-| `accent-color`   | string    | CSS color used for launcher button and message bubbles.      |
-| `initial-open`   | boolean   | When present or set to `true`, panel starts in the open state |
+| Attribute        | Type      | Description                                                    |
+| ---------------- | --------- | -------------------------------------------------------------- |
+| `api-url`        | string    | Full chat endpoint (defaults to `http://127.0.0.1:8000/api/chat`). |
+| `title`          | string    | Header title text.                                             |
+| `accent-color`   | string    | CSS color used for launcher button and message bubbles.        |
+| `initial-open`   | boolean   | When present or set to `true`, panel starts in the open state  |
 
 All attributes can be updated dynamically; the React tree re-renders in place.
 
@@ -87,6 +89,46 @@ examples/
 
 ## Next Steps
 
-- Wire `mockResponse` with the actual Rumor backend once the API URL is available.
+- Add auth/tenant metadata handling once backend requirements land.
 - Expand accessibility testing (screen readers, keyboard traps) before shipping widely.
 - Add automated tests (unit + visual regression) as product requirements evolve.
+
+## Backend Integration Details
+
+The widget POSTs to `/api/chat` (overridable via `api-url`). Payload shape:
+
+```json
+{
+  "session_id": "{unique_id}",
+  "message": {
+    "role": "user",
+    "content": "{user_message}",
+    "timestamp": "{timestamp}"
+  },
+  "history": [
+    {
+      "role": "assistant",
+      "content": "{prior_message}",
+      "timestamp": "{timestamp}"
+    }
+  ],
+  "metadata": {}
+}
+```
+
+The API response is expected to include at least one assistant message:
+
+```json
+{
+  "session_id": "{unique_id}",
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "{ai_message}"
+    }
+  ],
+  "lead_captured": false,
+  "meeting_scheduled": false,
+  "suggested_slots": null
+}
+```

@@ -1,5 +1,5 @@
 export interface WidgetProps {
-  /** Optional API endpoint the widget will talk to. */
+  /** Full API endpoint override (defaults to the dev chat endpoint). */
   apiUrl?: string;
   /** Display name rendered in the widget header. */
   title?: string;
